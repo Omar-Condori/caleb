@@ -120,9 +120,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(10, 0, 12, 0.7);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background:
+        linear-gradient(135deg, rgba(10, 0, 12, 0.65), rgba(26, 10, 30, 0.75)),
+        url('https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=1200&q=80') center/cover no-repeat;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
@@ -626,8 +628,8 @@
        MUSIC OVERLAY
   ========================================== -->
   <div id="music-overlay">
-    <p class="overlay-title">✦ Presiona para comenzar ✦</p>
-    <button id="music-btn">❤️ Haz clic para comenzar ❤️</button>
+    <p class="overlay-title">✦ Presiona antes de comenzar ✦</p>
+    <button id="music-btn">❤️ Presiona antes de comenzar ❤️</button>
   </div>
 
   <!-- Audio element -->
