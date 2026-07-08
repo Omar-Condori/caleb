@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para la chica más hermosa ❤️</title>
+  <style>
+    /* ============================================
+       RESET & BASE
+    ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a0a1e 0%, #2d0f2e 15%, #4a154b 30%, #6b1d45 50%, #4a154b 70%, #2d0f2e 85%, #1a0a1e 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 18s ease infinite;
+      overflow-x: hidden;
+      color: #fce4ec;
+      position: relative;
+    }
+
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      25%  { background-position: 50% 0%; }
+      50%  { background-position: 100% 50%; }
+      75%  { background-position: 50% 100%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ============================================
+       PARTICLES CANVAS
+    ============================================ */
+    #particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ============================================
+       FLOATING HEARTS
+    ============================================ */
+    .heart-float {
+      position: fixed;
+      z-index: 1;
+      pointer-events: none;
+      font-size: 1.2rem;
+      opacity: 0;
+      animation: floatUp linear forwards;
+    }
+
+    @keyframes floatUp {
+      0%   { opacity: 0; transform: translateY(100vh) rotate(0deg) scale(0.5); }
+      10%  { opacity: 0.7; }
+      90%  { opacity: 0.7; }
+      100% { opacity: 0; transform: translateY(-10vh) rotate(720deg) scale(1.2); }
+    }
+
+    /* ============================================
+       STARS
+    ============================================ */
+    .star {
+      position: fixed;
+      z-index: 1;
+      pointer-events: none;
+      width: 4px;
+      height: 4px;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle var(--duration, 2s) ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0%   { opacity: 0; transform: scale(1); }
+      50%  { opacity: 1; transform: scale(1.5); }
+      100% { opacity: 0.3; transform: scale(0.8); }
+    }
+
+    /* ============================================
+       SPARKLES
+    ============================================ */
+    .sparkle {
+      position: fixed;
+      z-index: 1;
+      pointer-events: none;
+      width: 6px;
+      height: 6px;
+      background: radial-gradient(circle, #ffd1dc, rgba(255,105,180,0.6));
+      border-radius: 50%;
+      animation: sparkleAnim var(--dur, 3s) ease-in-out infinite;
+      box-shadow: 0 0 12px rgba(255,105,180,0.6);
+    }
+
+    @keyframes sparkleAnim {
+      0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+      50%      { opacity: 1; transform: scale(1) rotate(180deg); }
+    }
+
+    /* ============================================
+       MUSIC OVERLAY
+    ============================================ */
+    #music-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10, 0, 12, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #music-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #music-overlay .overlay-title {
+      color: rgba(255,200,220,0.6);
+      font-size: 1rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      font-style: normal;
+    }
+
+    #music-btn {
+      padding: 22px 56px;
+      font-size: 1.4rem;
+      font-family: 'Georgia', serif;
+      color: #fff;
+      background: linear-gradient(135deg, rgba(180,60,120,0.3), rgba(120,60,180,0.3));
+      border: 1.5px solid rgba(255,150,200,0.4);
+      border-radius: 60px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 40px rgba(200,50,120,0.3), 0 0 0 1px rgba(255,200,220,0.1) inset;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      letter-spacing: 2px;
+      animation: pulseBtn 2.5s ease-in-out infinite;
+    }
+
+    #music-btn:hover {
+      transform: scale(1.08);
+      background: linear-gradient(135deg, rgba(180,60,120,0.5), rgba(120,60,180,0.5));
+      box-shadow: 0 12px 50px rgba(200,50,120,0.5);
+    }
+
+    @keyframes pulseBtn {
+      0%, 100% { box-shadow: 0 8px 40px rgba(200,50,120,0.3); }
+      50%       { box-shadow: 0 8px 60px rgba(200,50,120,0.6); }
+    }
+
+    /* ============================================
+       MUSIC STATUS
+    ============================================ */
+    #music-status {
+      position: fixed;
+      top: 1.2rem;
+      right: 1.2rem;
+      z-index: 100;
+      color: rgba(255,200,220,0.5);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      opacity: 0;
+      transition: opacity 1s ease;
+      pointer-events: none;
+    }
+
+    #music-status.show {
+      opacity: 1;
+    }
+
+    #music-status .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: #ff6b9d;
+      border-radius: 50%;
+      margin-right: 6px;
+      animation: dotPulse 1s ease-in-out infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50%      { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* ============================================
+       HERO / CAROUSEL
+    ============================================ */
+    .hero {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    /* Carousel background */
+    .carousel-container {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+    }
+
+    .carousel-slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg,
+        rgba(26,10,30,0.75) 0%,
+        rgba(26,10,30,0.45) 50%,
+        rgba(26,10,30,0.75) 100%);
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      gap: 10px;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      border: 1.5px solid rgba(255,200,220,0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: rgba(255,150,200,0.8);
+      border-color: rgba(255,200,220,0.8);
+      box-shadow: 0 0 16px rgba(255,105,180,0.5);
+      transform: scale(1.3);
+    }
+
+    /* Title overlay on carousel */
+    .hero-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.4rem, 7vw, 4.8rem);
+      color: #fff;
+      text-shadow:
+        0 0 30px rgba(255,105,180,0.6),
+        0 0 80px rgba(200,50,150,0.3),
+        0 4px 20px rgba(0,0,0,0.5);
+      margin-bottom: 0.6rem;
+      letter-spacing: 3px;
+      animation: heroFadeIn 1.8s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-content h1 .highlight {
+      background: linear-gradient(135deg, #ff6b9d, #c084fc, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-content .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: rgba(255,220,235,0.9);
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      font-style: italic;
+      margin-top: 0.8rem;
+      animation: heroFadeIn 1.8s ease 0.4s forwards;
+      opacity: 0;
+    }
+
+    .hero-content .scroll-hint {
+      margin-top: 3rem;
+      color: rgba(255,200,220,0.6);
+      font-size: 0.85rem;
+      animation: bounceHint 2.5s ease-in-out infinite, heroFadeIn 1.8s ease 1s forwards;
+      opacity: 0;
+      letter-spacing: 3px;
+    }
+
+    @keyframes bounceHint {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(12px); }
+    }
+
+    @keyframes heroFadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-content h1, .hero-content .subtitle {
+      transform: translateY(20px);
+    }
+
+    /* ============================================
+       CARDS CONTAINER
+    ============================================ */
+    .cards-container {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 6rem;
+    }
+
+    /* ============================================
+       GLASSMORPHISM CARD
+    ============================================ */
+    .card {
+      background: rgba(255, 240, 245, 0.1);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 200, 220, 0.2);
+      border-radius: 26px;
+      padding: 2.4rem 2.2rem;
+      margin-bottom: 2.8rem;
+      box-shadow:
+        0 8px 40px rgba(200, 50, 120, 0.12),
+        0 2px 10px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 200, 220, 0.06) inset;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.015);
+      box-shadow:
+        0 20px 60px rgba(200, 50, 120, 0.25),
+        0 4px 16px rgba(0, 0, 0, 0.12),
+        0 0 0 1px rgba(255, 200, 220, 0.12) inset;
+    }
+
+    /* Shine border */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 28px;
+      background: linear-gradient(60deg,
+        rgba(255,105,180,0.3),
+        rgba(180,80,255,0.3),
+        rgba(100,150,255,0.3),
+        rgba(255,80,150,0.3),
+        rgba(255,105,180,0.3));
+      background-size: 400% 400%;
+      animation: shineBorder 5s ease infinite;
+      z-index: -1;
+      opacity: 0.6;
+    }
+
+    @keyframes shineBorder {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .card p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      line-height: 2;
+      color: #fce4ec;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================
+       CARD ENTRANCE ANIMATIONS
+    ============================================ */
+    .card.anim-slide-left {
+      transform: translateX(-80px);
+    }
+    .card.anim-slide-left.visible {
+      animation: slideLeft 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .card.anim-slide-right {
+      transform: translateX(80px);
+    }
+    .card.anim-slide-right.visible {
+      animation: slideRight 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .card.anim-fade {
+      transform: translateY(30px);
+    }
+    .card.anim-fade.visible {
+      animation: fadeUp 0.9s ease forwards;
+    }
+
+    .card.anim-zoom {
+      transform: scale(0.7);
+    }
+    .card.anim-zoom.visible {
+      animation: zoomIn 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .card.anim-slide-up {
+      transform: translateY(60px);
+    }
+    .card.anim-slide-up.visible {
+      animation: slideUp 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes slideLeft  { to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideRight { to { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeUp     { to { opacity: 1; transform: translateY(0); } }
+    @keyframes zoomIn     { to { opacity: 1; transform: scale(1); } }
+    @keyframes slideUp    { to { opacity: 1; transform: translateY(0); } }
+
+    /* Card float */
+    .card.float-anim {
+      animation: cardFloat 5s ease-in-out infinite;
+    }
+    .card:hover.float-anim {
+      animation: cardFloatHover 3s ease-in-out infinite;
+    }
+
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    @keyframes cardFloatHover {
+      0%, 100% { transform: translateY(-6px) scale(1.015); }
+      50%      { transform: translateY(-14px) scale(1.015); }
+    }
+
+    /* ============================================
+       DIVIDER HEARTS
+    ============================================ */
+    .divider-hearts {
+      text-align: center;
+      padding: 1rem 0;
+      position: relative;
+      z-index: 2;
+      font-size: 1.4rem;
+      letter-spacing: 12px;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .divider-hearts.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .divider-hearts span {
+      display: inline-block;
+      animation: heartBeat 1.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 6px rgba(255,105,180,0.6));
+    }
+
+    .divider-hearts span:nth-child(2) { animation-delay: 0.3s; }
+    .divider-hearts span:nth-child(3) { animation-delay: 0.6s; }
+    .divider-hearts span:nth-child(4) { animation-delay: 0.9s; }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.3); }
+    }
+
+    /* ============================================
+       FINAL SECTION
+    ============================================ */
+    .final-section {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease;
+    }
+
+    .final-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .final-section h2 {
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      color: #fff;
+      letter-spacing: 3px;
+    }
+
+    .final-section.visible h2 {
+      animation: finalEntrance 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                 finalGlow 2s ease-in-out 1.2s infinite alternate;
+      transform: scale(0.3);
+      opacity: 0;
+    }
+
+    @keyframes finalEntrance {
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes finalGlow {
+      0%   { text-shadow: 0 0 30px rgba(255,105,180,0.5), 0 0 80px rgba(200,50,150,0.3); }
+      100% { text-shadow: 0 0 60px rgba(255,105,180,0.8), 0 0 120px rgba(200,50,150,0.5); }
+    }
+
+    /* ============================================
+       HEART EXPLOSION
+    ============================================ */
+    #heart-explosion {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    .explosion-heart {
+      position: absolute;
+      font-size: 2rem;
+      animation: explodeHeart var(--dur, 2s) ease-out forwards;
+    }
+
+    @keyframes explodeHeart {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) scale(1.5) rotate(720deg);
+      }
+    }
+
+    /* ============================================
+       SCROLLBAR
+    ============================================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #ff6b9d, #c084fc);
+      border-radius: 10px;
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 600px) {
+      .card {
+        padding: 1.6rem 1.2rem;
+        border-radius: 20px;
+      }
+      .cards-container {
+        padding: 1.5rem 1rem 4rem;
+      }
+      #music-btn {
+        padding: 16px 32px;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================
+       PARTICLES CANVAS
+  ========================================== -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ==========================================
+       MUSIC OVERLAY
+  ========================================== -->
+  <div id="music-overlay">
+    <p class="overlay-title">✦ Presiona para comenzar ✦</p>
+    <button id="music-btn">❤️ Haz clic para comenzar ❤️</button>
+  </div>
+
+  <!-- Audio element -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="assets/YTDown.com_YouTube_a-thousand-years_Media_TA1W-pHNKl8_009_128k.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Music status indicator -->
+  <div id="music-status"><span class="dot"></span>Reproduciendo</div>
+
+  <!-- ==========================================
+       HERO + CAROUSEL
+  ========================================== -->
+  <section class="hero" id="hero">
+
+    <div class="carousel-container" id="carousel">
+      <div class="carousel-slide active" style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1200&q=80');"></div>
+      <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1200&q=80');"></div>
+      <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1517299321609-52687d1bc55a?w=1200&q=80');"></div>
+      <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=1200&q=80');"></div>
+      <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1200&q=80');"></div>
+    </div>
+
+    <div class="carousel-dots" id="carousel-dots"></div>
+
+    <div class="hero-content">
+      <h1>
+        <span class="highlight">Para la chica</span><br>
+        <span class="highlight">más hermosa</span>
+        <span style="color:#ff6b9d; -webkit-text-fill-color:#ff6b9d;">❤️</span>
+      </h1>
+      <p class="subtitle">"Y en un mundo de miles de personas, mis ojos siempre te encuentran a ti"</p>
+      <p class="scroll-hint">✦ Desliza hacia abajo ✦</p>
+    </div>
+
+  </section>
+
+  <!-- ==========================================
+       CARDS
+  ========================================== -->
+  <div class="cards-container" id="cards-container">
+
+    <div class="card anim-slide-left" data-delay="0">
+      <p>No sé si el destino existe, pero desde que llegaste a mi vida entendí por qué Bella miraba a Edward como si el mundo desapareciera alrededor Porque contigo me pasa igual… el ruido se apaga, el tiempo corre más lento y mi corazón parece encontrar su lugar exacto cuando estás cerca ami eres esa clase de persona que convierte cualquier momento simple en algo inolvidable.</p>
+    </div>
+
+    <div class="divider-hearts">
+      <span>❤</span> <span>❤</span> <span>❤</span> <span>❤</span>
+    </div>
+
+    <div class="card anim-slide-right" data-delay="200">
+      <p>A veces siento que eres mi para siempre ♾️ el como en esas historias imposibles donde dos almas se encuentran incluso entre la oscuridad Y aunque no brille como vampiro bajo el sol, te prometo que cada vez que sonríes iluminas muchísimo más que eso. Cuando te veo, imagino una vida llena de felicidad, de abrazos inesperados, de risas tontas a medianoche, de viajes, películas juntos, peleas por quién escoge la música y reconciliaciones llenas de cariño. Me imagino un mundo donde estés tú… y sinceramente, suena perfecto.....</p>
+    </div>
+
+    <div class="divider-hearts">
+      <span>❤</span> <span>❤</span> <span>❤</span> <span>❤</span>
+    </div>
+
+    <div class="card anim-fade" data-delay="400">
+      <p>Quiero pasar mucho más tiempo contigo, conocer cada parte de ti, tus miedos, tus sueños, tus locuras y hasta esas pequeñas manías que seguramente algún día terminaré adorando... Porque no se trata solo de quererte… se trata de admirarte, apreciarte y sentir una paz enorme cuando estoy contigo. Eres esa tranquilidad bonita que no sabía que necesitaba.</p>
+    </div>
+
+    <div class="divider-hearts">
+      <span>❤</span> <span>❤</span> <span>❤</span> <span>❤</span>
+    </div>
+
+    <div class="card anim-zoom" data-delay="600">
+      <p>Y sí quizás esto suene un poco intenso, pero culpa a Crepúsculo la película que tanto amamos por enseñarnos que el amor puede sentirse eterno. Aunque siendo honestos, si yo fuera Edward probablemente me tropezaría entrando dramáticamente por tu ventana y terminaría pidiéndote permiso para pasar porque me daría vergüenza. Pero aun así iría, porque cualquier lugar contigo vale la pena los momentos vividos a ti lado me llenan de alegría y felicidad no hasta cuándo reniegas siento ternura hacia ti...</p>
+    </div>
+
+    <div class="divider-hearts">
+      <span>❤</span> <span>❤</span> <span>❤</span> <span>❤</span>
+    </div>
+
+    <div class="card anim-slide-up" data-delay="800">
+      <p>A veces pienso que contigo tendría una vida hermosa despertarnos tarde los domingos, molestarnos por tonterías, robarnos comida, abrazarnos después de un mal día y reírnos hasta que nos duela el estómago Quiero ser alguien que te cuide, te haga sentir especial y te recuerde todos los días lo increíble que eres.</p>
+    </div>
+
+    <div class="divider-hearts">
+      <span>❤</span> <span>❤</span> <span>❤</span> <span>❤</span>
+    </div>
+
+    <div class="card anim-slide-left" data-delay="1000">
+      <p>Porque entre tantas personas, mis ojos siempre terminan buscándote a ti. Y si algún día me preguntas qué veo cuando te miro… veo felicidad, paz, cariño y todas esas pequeñas cosas bonitas que hacen que la vida realmente valga la pena, y eso me hace sentir que ya es el momento para pedirte que seas algo más que una amiga una compañera de viaje que este ami lado a pesar de todo, a pesar de lo que vaya a ocurrir por qué quiere que tú seas la última persona en mi vida, te amo más que nada en el mundo</p>
+    </div>
+
+    <div class="divider-hearts">
+      <span>❤</span> <span>❤</span> <span>❤</span> <span>❤</span>
+    </div>
+
+    <div class="card anim-slide-right" data-delay="1200">
+      <p>por eso te pregunto quieres ser mi compañera de viaje en dónde me acompañes en una vida llena de aventuras y locuras dónde ambos podamos disfrutar todo lo que nos ofrece la vida</p>
+    </div>
+
+  </div>
+
+  <!-- ==========================================
+       FINAL SECTION
+  ========================================== -->
+  <section class="final-section" id="final-section">
+    <h2>Gracias por leer hasta aquí ❤️</h2>
+  </section>
+
+  <!-- ==========================================
+       HEART EXPLOSION CONTAINER
+  ========================================== -->
+  <div id="heart-explosion"></div>
+
+  <!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+  <script>
+    /* ============================================
+       PARTICLES (Canvas)
+    ============================================ */
+    (function() {
+      var canvas = document.getElementById('particles-canvas');
+      var ctx = canvas.getContext('2d');
+      var particles = [];
+      var w, h;
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      var count = Math.min(100, Math.floor((w * h) / 10000));
+
+      function Particle(x, y) {
+        this.x = x || Math.random() * w;
+        this.y = y || Math.random() * h;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3 - 0.08;
+        this.opacity = Math.random() * 0.5 + 0.3;
+        this.hue = Math.random() * 80 + 300;
+      }
+
+      Particle.prototype.update = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) {
+          this.x = Math.random() * w;
+          this.y = Math.random() * h;
+        }
+      };
+
+      Particle.prototype.draw = function() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'hsla(' + this.hue + ', 80%, 70%, ' + this.opacity + ')';
+        ctx.fill();
+      };
+
+      for (var i = 0; i < count; i++) particles.push(new Particle());
+
+      function animate() {
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+        for (var i = 0; i < particles.length; i++) {
+          for (var j = i + 1; j < particles.length; j++) {
+            var dx = particles[i].x - particles[j].x;
+            var dy = particles[i].y - particles[j].y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 130) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = 'hsla(320, 70%, 70%, ' + (0.06 * (1 - dist / 130)) + ')';
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+
+    /* ============================================
+       FLOATING HEARTS
+    ============================================ */
+    (function() {
+      var emojis = ['❤️', '💕', '💗', '💖', '💝', '♥️', '💓', '💘'];
+      function create() {
+        var el = document.createElement('div');
+        el.className = 'heart-float';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = Math.random() * 100 + '%';
+        el.style.fontSize = (Math.random() * 1.4 + 0.8) + 'rem';
+        el.style.animationDuration = (Math.random() * 10 + 14) + 's';
+        el.style.animationDelay = (Math.random() * 4) + 's';
+        document.body.appendChild(el);
+        setTimeout(function() { el.remove(); }, 22000);
+      }
+      setInterval(create, 1500);
+      for (var i = 0; i < 10; i++) setTimeout(create, i * 300);
+    })();
+
+    /* ============================================
+       STARS
+    ============================================ */
+    (function() {
+      for (var i = 0; i < 50; i++) {
+        var s = document.createElement('div');
+        s.className = 'star';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.setProperty('--duration', (Math.random() * 3 + 1.5) + 's');
+        s.style.animationDelay = Math.random() * 6 + 's';
+        s.style.width = s.style.height = (Math.random() * 4 + 2) + 'px';
+        document.body.appendChild(s);
+      }
+    })();
+
+    /* ============================================
+       SPARKLES
+    ============================================ */
+    (function() {
+      for (var i = 0; i < 25; i++) {
+        var sp = document.createElement('div');
+        sp.className = 'sparkle';
+        sp.style.left = Math.random() * 100 + '%';
+        sp.style.top = Math.random() * 100 + '%';
+        sp.style.setProperty('--dur', (Math.random() * 4 + 2) + 's');
+        sp.style.animationDelay = Math.random() * 6 + 's';
+        sp.style.width = sp.style.height = (Math.random() * 8 + 4) + 'px';
+        document.body.appendChild(sp);
+      }
+    })();
+
+    /* ============================================
+       CAROUSEL
+    ============================================ */
+    (function() {
+      var slides = document.querySelectorAll('.carousel-slide');
+      var dotsContainer = document.getElementById('carousel-dots');
+      var current = 0;
+      var total = slides.length;
+
+      for (var i = 0; i < total; i++) {
+        var dot = document.createElement('div');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.dataset.index = i;
+        dot.addEventListener('click', function() {
+          goTo(parseInt(this.dataset.index));
+        });
+        dotsContainer.appendChild(dot);
+      }
+
+      function goTo(index) {
+        slides[current].classList.remove('active');
+        dotsContainer.children[current].classList.remove('active');
+        current = index;
+        slides[current].classList.add('active');
+        dotsContainer.children[current].classList.add('active');
+      }
+
+      function next() {
+        goTo((current + 1) % total);
+      }
+
+      setInterval(next, 5000);
+    })();
+
+    /* ============================================
+       MUSIC (Local MP3)
+    ============================================ */
+    (function() {
+      var overlay = document.getElementById('music-overlay');
+      var btn = document.getElementById('music-btn');
+      var audio = document.getElementById('bg-music');
+      var statusEl = document.getElementById('music-status');
+
+      // Try autoplay
+      var playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(function() {
+          overlay.classList.add('hidden');
+          statusEl.classList.add('show');
+        }).catch(function() {
+          // Autoplay blocked, show overlay
+        });
+      }
+
+      btn.addEventListener('click', function() {
+        audio.play();
+        overlay.classList.add('hidden');
+        statusEl.classList.add('show');
+      });
+    })();
+
+    /* ============================================
+       SCROLL REVEAL
+    ============================================ */
+    (function() {
+      var cards = document.querySelectorAll('.card');
+      var dividers = document.querySelectorAll('.divider-hearts');
+      var finalSection = document.getElementById('final-section');
+
+      function isVisible(el, offset) {
+        var rect = el.getBoundingClientRect();
+        return rect.top < window.innerHeight - (offset || 0);
+      }
+
+      function check() {
+        for (var i = 0; i < cards.length; i++) {
+          var c = cards[i];
+          if (!c.classList.contains('visible') && isVisible(c, 80)) {
+            (function(card, d) {
+              setTimeout(function() { card.classList.add('visible'); }, d);
+            })(c, parseInt(c.dataset.delay) || 0);
+          }
+        }
+        for (var i = 0; i < dividers.length; i++) {
+          if (!dividers[i].classList.contains('visible') && isVisible(dividers[i], 60)) {
+            dividers[i].classList.add('visible');
+          }
+        }
+        if (!finalSection.classList.contains('visible') && isVisible(finalSection, 100)) {
+          finalSection.classList.add('visible');
+          triggerHeartExplosion();
+        }
+      }
+
+      window.addEventListener('scroll', check);
+      window.addEventListener('resize', check);
+      check();
+    })();
+
+    /* ============================================
+       HEART EXPLOSION
+    ============================================ */
+    function triggerHeartExplosion() {
+      var container = document.getElementById('heart-explosion');
+      var emojis = ['❤️', '💕', '💗', '💖', '💝', '♥️', '💓', '💘'];
+      var count = 70;
+
+      for (var i = 0; i < count; i++) {
+        (function() {
+          var el = document.createElement('div');
+          el.className = 'explosion-heart';
+          el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          var angle = (i / count) * 360 + (Math.random() - 0.5) * 30;
+          var radius = Math.random() * 350 + 120;
+          var rad = (angle * Math.PI) / 180;
+          el.style.setProperty('--x', Math.cos(rad) * radius + 'px');
+          el.style.setProperty('--y', Math.sin(rad) * radius + 'px');
+          el.style.setProperty('--dur', (Math.random() * 1.5 + 1.8) + 's');
+          el.style.left = '50%';
+          el.style.top = '50%';
+          el.style.fontSize = (Math.random() * 1.8 + 1) + 'rem';
+          el.style.animationDelay = (Math.random() * 0.8) + 's';
+          container.appendChild(el);
+          setTimeout(function() { el.remove(); }, 4000);
+        })();
+      }
+
+      setTimeout(function() {
+        for (var i = 0; i < 40; i++) {
+          (function() {
+            var el = document.createElement('div');
+            el.className = 'explosion-heart';
+            el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            var angle = Math.random() * 360;
+            var radius = Math.random() * 250 + 60;
+            var rad = (angle * Math.PI) / 180;
+            el.style.setProperty('--x', Math.cos(rad) * radius + 'px');
+            el.style.setProperty('--y', Math.sin(rad) * radius + 'px');
+            el.style.setProperty('--dur', (Math.random() * 1.5 + 1.5) + 's');
+            el.style.left = '50%';
+            el.style.top = '50%';
+            el.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+            el.style.animationDelay = '0s';
+            container.appendChild(el);
+            setTimeout(function() { el.remove(); }, 3500);
+          })();
+        }
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
