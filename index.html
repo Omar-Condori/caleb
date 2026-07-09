@@ -361,7 +361,8 @@
       transform: translateY(40px);
     }
 
-    .card.visible {
+    .card.visible,
+    .card-pair.visible .card {
       opacity: 1;
       transform: translateY(0);
     }
@@ -534,35 +535,35 @@
     .card.anim-slide-left {
       transform: translateX(-80px);
     }
-    .card.anim-slide-left.visible {
+    .card-pair.visible .card.anim-slide-left {
       animation: slideLeft 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     }
 
     .card.anim-slide-right {
       transform: translateX(80px);
     }
-    .card.anim-slide-right.visible {
+    .card-pair.visible .card.anim-slide-right {
       animation: slideRight 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     }
 
     .card.anim-fade {
       transform: translateY(30px);
     }
-    .card.anim-fade.visible {
+    .card-pair.visible .card.anim-fade {
       animation: fadeUp 0.9s ease forwards;
     }
 
     .card.anim-zoom {
       transform: scale(0.7);
     }
-    .card.anim-zoom.visible {
+    .card-pair.visible .card.anim-zoom {
       animation: zoomIn 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     }
 
     .card.anim-slide-up {
       transform: translateY(60px);
     }
-    .card.anim-slide-up.visible {
+    .card-pair.visible .card.anim-slide-up {
       animation: slideUp 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     }
 
